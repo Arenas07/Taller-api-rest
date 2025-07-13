@@ -26,6 +26,14 @@ switch($recurso){
                 echo json_encode($response);
                 break;
             case "POST":
+                $data = json_decode(file_get_contents('php://input'), true);
+                $stmt = $pdo->prepare("INSERT INTO categorias(nombre) VALUES(?)");
+                $stmt->execute([
+                    $data['nombre']
+                ]);
+                http_response_code(201);
+                $data['id'] = $pdo->lastInsertId();
+                echo json_encode($data); // Muestra al usuario todo lo que inserto
                 break;
             case "PUT":
                 break;
