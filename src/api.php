@@ -82,11 +82,21 @@ switch($recurso){
         switch($method){
             case "GET":
                 if($id){
-                    $stmt = $pdo->prepare("SELECT * FROM productos WHERE id = ?");
+                    $stmt = $pdo->prepare("SELECT pr.id, pr.nombre AS producto, pr.precio, c.nombre AS categoria, IFNULL(prom.descuento, 0) AS descuento
+                    FROM productos pr
+                    INNER JOIN categorias c ON c.id = pr.categoria_id
+                    LEFT JOIN promociones prom ON prom.producto_id = pr.id
+                    WHERE pr.id = ?"
+                    );
                     $stmt->execute([$id]);
                     $response = $stmt->fetch(PDO::FETCH_ASSOC);
                 } else {
-                    $stmt = $pdo->prepare("SELECT * FROM productos");
+                    $stmt = $pdo->prepare("SELECT pr.id, pr.nombre AS producto, pr.precio, c.nombre AS categoria, IFNULL(prom.descuento, 0) AS descuento
+                    FROM productos pr
+                    INNER JOIN categorias c ON c.id = pr.categoria_id
+                    LEFT JOIN promociones prom ON prom.producto_id = pr.id
+                    ");
+
                     $stmt->execute();
                     $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 };
