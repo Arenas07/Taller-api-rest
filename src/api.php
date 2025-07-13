@@ -25,6 +25,7 @@ switch($recurso){
                 $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 echo json_encode($response);
                 break;
+                
             case "POST":
                 $data = json_decode(file_get_contents('php://input'), true);
                 $stmt = $pdo->prepare("INSERT INTO categorias(nombre) VALUES(?)");
@@ -35,8 +36,23 @@ switch($recurso){
                 $data['id'] = $pdo->lastInsertId();
                 echo json_encode($data); // Muestra al usuario todo lo que inserto
                 break;
+
             case "PUT":
+                if (!$id) {
+                    http_response_code(400);
+                    echo json_encode(['error' => 'ID no encontrado', 'code' => 400, 'errorUrl' => 'https://http.cat/status/400']);
+                exit;
+                }
+                $data = json_decode(file_get_contents('php://input'), true);
+                $stmt = $pdo->prepare("UPDATE categorias SET nombre=? WHERE id=?");
+                $stmt->execute([
+                    $data['nombre'],
+                    $id
+                ]);
+
+                echo json_encode($data);
                 break;
+
             case "DELETE":
                 break;
         }
