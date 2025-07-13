@@ -15,3 +15,85 @@ if (!in_array($recurso, ['categorias', 'productos', 'promociones'])) {
     echo json_encode(['error' => 'Recurso no encontrado', 'code' => 404, 'errorUrl' => 'https://http.cat/status/404']);
     exit;
 };
+
+switch($recurso){
+    case "categorias":
+        switch($method){
+            case "GET":
+                if($id){
+                    $stmt = $pdo->prepare("SELECT * FROM categorias WHERE id = ?");
+                    $stmt->execute([$id]);
+                    $response = $stmt->fetch(PDO::FETCH_ASSOC);
+                } else {
+                    $stmt = $pdo->prepare("SELECT * FROM categorias");
+                    $stmt->execute();
+                    $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                };
+                echo json_encode($response);
+                break;
+            case "POST":
+                break;
+            case "PUT":
+                break;
+            case "DELETE":
+                break;
+        }
+        break;
+    case "productos":
+        switch($method){
+            case "GET":
+                if($id){
+                    $stmt = $pdo->prepare("SELECT * FROM productos WHERE id = ?");
+                    $stmt->execute([$id]);
+                    $response = $stmt->fetch(PDO::FETCH_ASSOC);
+                } else {
+                    $stmt = $pdo->prepare("SELECT * FROM productos");
+                    $stmt->execute();
+                    $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                };
+                echo json_encode($response);
+                break;
+            case "POST":
+                break;
+            case "PUT":
+                break;
+            case "DELETE":
+                break;
+        }
+        break;
+    case "promociones":
+        switch($method){
+            case "GET":
+                if($id){
+                    $stmt = $pdo->prepare("SELECT * FROM promociones WHERE id = ?");
+                    $stmt->execute([$id]);
+                    $response = $stmt->fetch(PDO::FETCH_ASSOC);
+                } else {
+                    $stmt = $pdo->prepare("SELECT * FROM promociones");
+                    $stmt->execute();
+                    $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                };
+                echo json_encode($response);
+                break;
+            case "POST":
+                break;
+            case "PUT":
+                break;
+            case "DELETE":
+                break;
+        }
+        break;
+    case "descuentos":
+        $stmt = $pdo->prepare(" SELECT pr.id, pr.nombre, pr.precio, pr.categoria_id
+        FROM productos pr
+        INNER JOIN promociones prom ON pr.id = prom.producto_id
+        WHERE descuento > 20
+        ");
+
+        $stmt = $pdo->execute();
+        $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($response);
+        break;
+
+}
