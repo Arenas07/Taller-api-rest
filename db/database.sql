@@ -23,3 +23,21 @@ CREATE TABLE promociones (
     producto_id INT,
     FOREIGN KEY (producto_id) REFERENCES productos(id)
 );
+
+
+INSERT INTO categorias (nombre) VALUES
+('Ropa'),
+('Calzado'),
+('Accesorios');
+
+INSERT INTO productos (nombre, precio, categoria_id) VALUES
+('Polo', 50000.00, 1),    
+('Zapatos', 120000.00, 2), 
+('Gorra', 30000.00, 3),  
+('Jean', 80000.00, 1),  
+('Sandalias', 45000.00, 2); 
+
+INSERT INTO promociones (descripcion, descuento, producto_id) VALUES
+('Promocion mega exclusiva para clientes bien fieles', 99.00, 2),
+('Promocion por lastima', 5.00, 4),
+('Promocion por palanca con el dueño', 30.00, 1);
