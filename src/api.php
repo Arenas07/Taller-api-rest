@@ -137,6 +137,28 @@ switch($recurso){
 
                 break;
             case "DELETE":
+
+                if (!$id) {
+                    http_response_code(400);
+                    echo json_encode(['error' => 'ID no encontrado', 'code' => 400, 'errorUrl' => 'https://http.cat/status/400']);
+                exit;
+                }
+
+                $stmt = $pdo->prepare("DELETE FROM productos WHERE id=?");
+                $stmt->execute([
+                    $id
+                ]);
+
+                $count = $stmt->rowCount();
+
+                if ($count > 0){
+                    http_response_code(200); 
+                    echo json_encode(['message' => 'Producto eliminado con exito', 'id' => $id]);
+
+                } else{
+                    http_response_code(404);
+                    echo json_encode(['error' => 'No se pudo eliminar el producto', 'code' => 404, 'errorUrl' => 'https://http.cat/status/404']);
+                }
                 break;
         }
         break;
