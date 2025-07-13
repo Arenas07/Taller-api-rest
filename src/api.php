@@ -25,7 +25,7 @@ switch($recurso){
                 $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 echo json_encode($response);
                 break;
-                
+
             case "POST":
                 $data = json_decode(file_get_contents('php://input'), true);
                 $stmt = $pdo->prepare("INSERT INTO categorias(nombre) VALUES(?)");
@@ -54,6 +54,27 @@ switch($recurso){
                 break;
 
             case "DELETE":
+                if (!$id) {
+                    http_response_code(400);
+                    echo json_encode(['error' => 'ID no encontrado', 'code' => 400, 'errorUrl' => 'https://http.cat/status/400']);
+                exit;
+                }
+
+                $stmt = $pdo->prepare("DELETE FROM categorias WHERE id=?");
+                $stmt->execute([
+                    $id
+                ]);
+
+                $count = $stmt->rowCount();
+
+                if ($count > 0){
+                    http_response_code(200); // Miguel
+                    echo json_encode(['message' => 'Categoria eliminada con exito', 'id' => $id]);
+
+                } else{
+                    http_response_code(404);
+                    echo json_encode(['error' => 'No se pudo eliminar la categoria', 'code' => 404, 'errorUrl' => 'https://http.cat/status/404']);
+                }
                 break;
         }
         break;
