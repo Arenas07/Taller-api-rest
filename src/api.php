@@ -185,6 +185,22 @@ switch($recurso){
 
                 break;
             case "PUT":
+
+                if (!$id) {
+                    http_response_code(400);
+                    echo json_encode(['error' => 'ID no encontrado', 'code' => 400, 'errorUrl' => 'https://http.cat/status/400']);
+                exit;
+                }
+                $data = json_decode(file_get_contents('php://input'), true);
+                $stmt = $pdo->prepare("UPDATE promociones SET descripcion=?, descuento=?, producto_id=? WHERE id=?");
+                $stmt->execute([
+                    $data['descripcion'],
+                    $data['descuento'],
+                    $data['producto_id'],
+                    $id
+                ]);
+
+                echo json_encode($data);
                 break;
             case "DELETE":
                 break;
