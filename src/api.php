@@ -236,7 +236,7 @@ switch($recurso){
         WHERE descuento > 20
         ");
 
-        $stmt = $pdo->execute();
+        $stmt->execute();
         $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         echo json_encode($response);
