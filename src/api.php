@@ -20,15 +20,9 @@ switch($recurso){
     case "categorias":
         switch($method){
             case "GET":
-                if($id){
-                    $stmt = $pdo->prepare("SELECT * FROM categorias WHERE id = ?");
-                    $stmt->execute([$id]);
-                    $response = $stmt->fetch(PDO::FETCH_ASSOC);
-                } else {
-                    $stmt = $pdo->prepare("SELECT * FROM categorias");
-                    $stmt->execute();
-                    $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                };
+                $stmt = $pdo->prepare("SELECT * FROM categorias");
+                $stmt->execute();
+                $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 echo json_encode($response);
                 break;
             case "POST":
@@ -64,15 +58,9 @@ switch($recurso){
     case "promociones":
         switch($method){
             case "GET":
-                if($id){
-                    $stmt = $pdo->prepare("SELECT * FROM promociones WHERE id = ?");
-                    $stmt->execute([$id]);
-                    $response = $stmt->fetch(PDO::FETCH_ASSOC);
-                } else {
-                    $stmt = $pdo->prepare("SELECT * FROM promociones");
-                    $stmt->execute();
-                    $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                };
+                $stmt = $pdo->prepare("SELECT * FROM promociones");
+                $stmt->execute();
+                $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 echo json_encode($response);
                 break;
             case "POST":
