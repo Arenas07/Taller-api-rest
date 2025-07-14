@@ -13,7 +13,7 @@ CREATE TABLE productos (
     nombre VARCHAR(100) NOT NULL,
     precio DECIMAL(10, 2) NOT NULL,
     categoria_id INT,
-    FOREIGN KEY (categoria_id) REFERENCES categorias(id)
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE CASCADE
 );
 
 CREATE TABLE promociones (
@@ -21,7 +21,7 @@ CREATE TABLE promociones (
     descripcion VARCHAR(255) NOT NULL,
     descuento DECIMAL(5, 2) NOT NULL,
     producto_id INT,
-    FOREIGN KEY (producto_id) REFERENCES productos(id)
+    FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE CASCADE
 );
 
 
